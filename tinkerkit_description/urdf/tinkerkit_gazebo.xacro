@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<robot name="tinkerkit" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Gazebo ros2_control plugin -->
+    <gazebo>
+      <xacro:if value="$(arg is_ignition)">
+        <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+          <parameters>$(find tinkerkit_controller)/config/tinkerkit_controllers.yaml</parameters>
+        </plugin>
+        <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
+          <render_engine>ogre2</render_engine>
+      <!-- <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <robot_param>robot_description</robot_param>
+        <robot_param_node>robot_state_publisher</robot_param_node>
+        <parameters>$(find tinkerkit_controller)/config/tinkerkit_controllers.yaml</parameters> -->
+      </plugin>
+    </xacro:if>
+    </gazebo>
+
+    <gazebo reference="base_link"> 
+      <material>Gazebo/orange</material>
+    </gazebo>
+    <gazebo reference="shoulder_link"> 
+      <material>Gazebo/orange</material>
+    </gazebo>
+    <gazebo reference="elbow_link"> 
+      <material>Gazebo/orange</material>
+    </gazebo>
+    <gazebo reference="arm_link"> 
+      <material>Gazebo/orange</material>
+    </gazebo>
+    <gazebo reference="wrist_link"> 
+      <material>Gazebo/orange</material>
+    </gazebo>
+    <gazebo reference="hand_link"> 
+      <material>Gazebo/amber</material>
+    </gazebo>
+    <gazebo reference="left_gripper"> 
+      <material>Gazebo/amber</material>
+    </gazebo>
+    <gazebo reference="right_gripper"> 
+      <material>Gazebo/amber</material>
+    </gazebo>
+
+</robot>

@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/binn/robot_ws/manipulator/tinkerkit/install/tinkerkit_msgs/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/install/tinkerkit_controller/include/**",
+        "/opt/ros/humble/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_bringup/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_command/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_controller/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_description/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_firmware/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_moveit/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_msgs/include/**",
+        "/home/binn/robot_ws/manipulator/tinkerkit/src/tinkerkit_remote/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

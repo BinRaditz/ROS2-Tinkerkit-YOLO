@@ -1,0 +1,262 @@
+<?xml version="1.0" ?>
+<robot name="tinkerkit" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="is_sim" default="true"/>
+    <!-- Start GZ or Ignition depending on ROS 2 Version -->
+    <xacro:arg name="is_ignition" default="true"/>
+    
+    <!-- Include Gazebo Parameters -->
+    <xacro:include filename="$(find tinkerkit_description)/urdf/tinkerkit_gazebo.xacro" />
+    <xacro:include filename="$(find tinkerkit_description)/urdf/gazebe_material.xacro" />
+    <!-- Include ros2_control Plugins -->
+    <xacro:include filename="$(find tinkerkit_description)/urdf/tinkerkit_ros2_control.xacro" />
+    <!--Include Sensor-->
+    <xacro:include filename="$(find tinkerkit_description)/urdf/camera.xacro" />
+
+    <!-- Useful XACRO Variables (Properties) -->
+    <xacro:property name="PI" value="3.14159265359" />
+    <xacro:property name="effort" value="30.0" />
+    <xacro:property name="velocity" value="10.0" />
+    <!-- Useful Macros -->
+    <xacro:macro name="deafult_inertial" params="mass">
+        <inertial>
+             <mass value="${mass}"/>
+             <inertia    ixx="1.0"   ixy="0.0"   ixz="0.0"
+                    iyy="1.0"   iyz="0.0"  
+                    izz="1.0"/>
+         </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="default_transmission" params="number">
+        <transmission name="transmission_${number}">
+            <plugin>transmission_interface/SimpleTransmission</plugin>
+            <actuator name="motor_${number}" role="actuator1">
+                <hardwareInterface>hardware_interaface/EffortJointInterface</hardwareInterface>
+            </actuator>
+            <joint name="joint_${number}"    role="joint1">
+                 <hardwareInterface>hardware_interaface/EffortJointInterface</hardwareInterface>
+                 <mechanical_reduction>1.0</mechanical_reduction>
+            </joint>
+        </transmission>
+    </xacro:macro>
+
+<link name="world"/>
+
+<link name="base_link">
+    <xacro:deafult_inertial mass="0.25"/>
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+              <mesh filename="file://$(find tinkerkit_description)/meshes/base_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="orange"/>
+    </visual>
+    <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/base_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+    </collision>
+</link>
+<link name="shoulder_link">
+    <xacro:deafult_inertial mass="0.2"/>
+    <visual>
+        <origin xyz="-0.0 0.0 -0.18" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/shoulder_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="orange"/>
+     </visual>
+     <collision>
+        <origin xyz="-0.0 0.0 -0.18" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/shoulder_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+     </collision>
+</link>
+<link name="elbow_link">
+    <xacro:deafult_inertial mass="0.15"/>
+    <visual>
+        <origin xyz="0.0 0.0 -0.6705" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/elbow_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="orange"/>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.0 -0.6705" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/elbow_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+    </collision>
+</link>
+
+<link name="arm_link">
+    <xacro:deafult_inertial mass="0.15"/>
+    <visual>
+        <origin xyz="0.0 0.0 -1.92" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/arm_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="orange"/>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.0 -1.92" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/arm_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+    </collision>
+</link>
+
+<link name="wrist_link">
+    <xacro:deafult_inertial mass="0.1"/>
+    <visual>
+        <origin xyz="0.0 0.00 -3.25" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/wrist_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="orange"/>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.00 -3.25" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/wrist_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+    </collision>
+</link>
+
+<link name="hand_link">
+    <xacro:deafult_inertial mass="0.1"/>
+    <visual>
+        <origin xyz="0.0 0.0 -3.75" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/hand_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="amber"/>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.0 -3.75" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/hand_link.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+    </collision>
+</link>
+<link name="left_gripper">
+    <xacro:deafult_inertial mass="0.05"/>
+    <visual>
+        <origin xyz="-0.125 -0.087 -4.1125" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/left_gripper.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="amber"/>
+    </visual>
+    <collision>
+        <origin xyz="-0.125 -0.087 -4.1125" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/left_gripper.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+    </collision>
+</link>
+<link name="right_gripper">
+    <xacro:deafult_inertial mass="0.05"/>
+    <visual>
+        <origin xyz="0.125 -0.087 -4.1125" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/right_gripper.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="amber"/>
+    </visual>
+    <collision>
+        <origin xyz="0.125 -0.087 -4.1125" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="file://$(find tinkerkit_description)/meshes/right_gripper.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+    </collision>
+</link>
+
+
+
+
+
+
+<joint name="virtual_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+</joint>
+
+<joint name="joint_1" type="revolute"> <!--base_joint-->
+    <origin xyz="0.0 0.0 0.18" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <axis xyz="0.0 -0.0 1.0"/>
+    <limit upper="${PI}" lower="${0}" effort="${effort}" velocity="${velocity}"/>
+</joint>
+<joint name="joint_2" type="revolute"> <!--shoulder_joint-->
+    <origin xyz="0 0 0.50" rpy="0 0 0"/>
+    <parent link="shoulder_link"/>
+    <child link="elbow_link"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit upper="${PI/2.57143}" lower="-${PI/2.57143}" effort="${effort}" velocity="${velocity}"/>
+  </joint>
+
+<joint name="joint_3" type="revolute"> <!--elbow_joint-->
+    <origin xyz="0.0 0.0 1.245" rpy="0 0 0"/>
+    <parent link="elbow_link"/>
+    <child link="arm_link"/>
+    <axis xyz="1.0 0.0 -0.0"/>
+    <limit upper="${PI/1.8}" lower="-${PI/1.8}" effort="${effort}" velocity="${velocity}"/>
+</joint>
+
+<joint name="joint_4" type="revolute"> <!--arm_joint-->
+    <origin xyz="0.0 0.0 1.245" rpy="0 0 0"/>
+    <parent link="arm_link"/>
+    <child link="wrist_link"/>
+    <axis xyz="1.0 0.0 -0.0"/>
+    <limit upper="${PI/2}" lower="-${PI/2}" effort="${effort}" velocity="${velocity}"/>
+</joint>
+
+<joint name="joint_5" type="revolute"> <!--hand_joint-->
+    <origin xyz="0.0 0.0 0.50" rpy="0 0 0"/>
+    <parent link="wrist_link"/>
+    <child link="hand_link"/>
+    <axis xyz="-0.0 0.0 1.0"/>
+    <limit upper="${PI/2}" lower="-${PI/2}" effort="${effort}" velocity="${velocity}"/>
+</joint>
+<joint name="joint_6" type="revolute"> <!--left_gripper_joint-->
+    <origin xyz="0.12 0.1 0.36" rpy="0 0 0"/>
+    <parent link="hand_link"/>
+    <child link="left_gripper"/>
+    <axis xyz="0.0 -1.0 0.0"/>
+    <limit upper="-${PI/180}" lower="-${PI/4}" effort="${effort}" velocity="${velocity}"/>
+</joint>
+<joint name="joint_7" type="revolute"> <!--right_gripper_joint-->
+    <origin xyz="-0.12 0.1 0.36" rpy="0 0 0"/>
+    <parent link="hand_link"/>
+    <child link="right_gripper"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <mimic joint="joint_6" multiplier="1"/>
+    <limit upper="${PI/4}" lower="${PI/180}" effort="${effort}" velocity="${velocity}"/>
+</joint>
+
+
+
+<material name="orange">
+    <color rgba="1.00 0.44 0.0 1" />
+</material>
+
+<material name="amber">
+    <color rgba="1.00 0.88 0.7 1" />
+</material>
+
+<!-- Transmissions-->
+<xacro:default_transmission number="1"/>
+<xacro:default_transmission number="2"/>
+<xacro:default_transmission number="3"/>
+<xacro:default_transmission number="4"/>
+<xacro:default_transmission number="5"/>
+<xacro:default_transmission number="6"/>
+<xacro:default_transmission number="7"/>
+<xacro:default_transmission number="8"/>
+
+</robot>    

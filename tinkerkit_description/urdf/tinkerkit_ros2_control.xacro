@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="Tinkerkit">
+
+    <ros2_control name="RobotSystem" type="system">
+
+        <xacro:property name="PI" value="3.14159265359" />
+
+        <!-- ros2_control Gazebo
+        <xacro:if value="$(arg is_ignition)">
+                <hardware>
+                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
+                </hardware>
+        </xacro:if>
+        Include ros2_control
+        <xacro:unless value="$(arg is_sim)">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+            <joint name="joint_7">
+                <param name="mimic">joint_6</param>
+                <param name="multiplier">-1</param>
+                <command_interface name="position">
+                <param name="min">${PI/3.6}</param>
+                <param name="max">"${PI/180}</param>
+                </command_interface>
+            </joint>
+        </xacro:unless> -->
+        <xacro:if value="$(arg is_sim)">
+            <xacro:unless value="$(arg is_ignition)">
+                <hardware>
+                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
+                </hardware>
+                <joint name="joint_7">
+                    <param name="mimic">joint_6</param>
+                    <param name="multiplier">-1</param>
+                    <command_interface name="position">
+                    <param name="min">${PI/3.6}</param>
+                    <param name="max">"${PI/180}</param>
+                    </command_interface>
+                </joint>
+            </xacro:unless>
+            <!-- <joint name="joint_7">
+                <param name="mimic">joint_6</param>
+                <param name="multiplier">-1</param>
+                <command_interface name="position">
+                <param name="min">${PI/3.6}</param>
+                <param name="max">"${PI/180}</param>
+                </command_interface>
+            </joint> -->
+        </xacro:if>
+
+          <!-- ros2_control Real Robot -->
+        <xacro:unless value="$(arg is_sim)">
+            <hardware>
+                <plugin>tinkerkit_controller/TinkerkitInterface</plugin>
+                <param name="port">/dev/ttyACM0</param>
+            </hardware>
+        </xacro:unless> 
+
+        <joint name="joint_1">
+            <command_interface name="position">
+            <param name="min">${0 }</param>
+            <param name="max">${PI}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+
+        <joint name="joint_2">
+            <command_interface name="position">
+            <param name="min">-${PI/2}</param>
+            <param name="max">${PI/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+
+        <joint name="joint_3">
+            <command_interface name="position">
+            <param name="min">-${PI/1.8}</param>
+            <param name="max">${PI/1.8}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+
+        <joint name="joint_4">
+            <command_interface name="position">
+            <param name="min">-${PI/2}</param>
+            <param name="max">${PI/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+
+        <joint name="joint_5">
+            <command_interface name="position">
+            <param name="min">-${PI/2}</param>
+            <param name="max">${PI/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+
+        <joint name="joint_6">
+            <command_interface name="position">
+            <param name="min">-${PI/180}</param>
+            <param name="max">-${PI/4}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+
+        
+    </ros2_control>
+    <!-- <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+          <parameters>$(find tinkerkit_controller)/config/tinkerkit_controllers.yaml</parameters>
+        </plugin>
+      </gazebo> -->
+
+</robot>

@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<robot name="tinkerkit" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <gazebo reference="base_link"> 
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="shoulder_link"> 
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="elbow_link"> 
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="arm_link"> 
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="wrist_link"> 
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="hand_link"> 
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="left_gripper"> 
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="right_gripper"> 
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    
+</robot>

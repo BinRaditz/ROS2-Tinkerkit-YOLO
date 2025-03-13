@@ -1,0 +1,10 @@
+<library path="tinkerkit_controller">
+  <class name="tinkerkit_controller/TinkerkitInterface"
+    type="tinkerkit_controller::TinkerkitInterface"
+    base_class_type="hardware_interface::SystemInterface"
+  >
+    <description>
+      Tinkerkit hardware interface for ros2_control
+    </description>
+  </class>
+</library>
