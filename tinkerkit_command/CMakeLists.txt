@@ -18,6 +18,9 @@ find_package(moveit_core REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(tinkerkit_msgs REQUIRED)
+# find_package(moveit_visual_tools REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 # Executable sources and dependencies
 set(EXECUTABLES
@@ -28,6 +31,7 @@ set(EXECUTABLES
   move_group_interface_tutorial
   tcp_broadcast
   robotarm_controller
+  pick_and_place
 )
 
 set(SOURCES
@@ -38,6 +42,7 @@ set(SOURCES
   src/move_group_interface_tutorial.cpp
   src/tcp_broadcast.cpp
   src/robotarm_controller.cpp
+  src/pick_and_place.cpp
 )
 
 set(DEPENDENCIES
